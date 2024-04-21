@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Open the Envelope!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f0f0f0;
+        }
+
+        #envelope {
+            width: 200px;
+            height: 150px;
+            background: linear-gradient(to bottom right, #d3d3d3, #a9a9a9);
+            border: 2px solid #333;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        #envelope:hover {
+            transform: scale(1.1);
+        }
+
+        .flap {
+            width: 200px;
+            height: 100px;
+            background: #a9a9a9;
+            position: absolute;
+            top: 0;
+            transform: rotate(45deg);
+            transition: transform 0.5s;
+        }
+
+        .message {
+            display: none;
+            transition: all 0.3s;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        .button.no {
+            background-color: #f44336;
+        }
+
+        .button.no:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+    <script>
+        var noFontSize = 16;
+
+        function openEnvelope() {
+            document.getElementById("envelope").style.display = "none";
+            document.getElementById("question1").style.display = "block";
+        }
+
+        function handleAnswer(questionId, answer) {
+            if (answer === "yes") {
+                var nextQuestion = document.getElementById(questionId).getAttribute("data-next");
+                if (nextQuestion) {
+                    document.getElementById(questionId).style.display = "none";
+                    document.getElementById(nextQuestion).style.display = "block";
+                } else {
+                    document.getElementById("finalMessage").style.display = "block";
+                }
+            } else {
+                var noButton = document.getElementById("no_" + questionId);
+                noFontSize--;
+                if (noFontSize > 0) {
+                    noButton.style.font-size = noFontSize + "px";
+                } else {
+                    noButton becomes invisible.
+                    noButton.style.visibility = "hidden";
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="envelope" onclick="openEnvelope()">
+        Click to Open
+        <div class="flap"></div>
+    </div>
+
+    <div id="question1" class="message" data-next="question2">
+        <p>Do you like me?</p>
+        <button class="button" onclick="handleAnswer('question1', 'yes')">Yes</button>
+        <button class="button no" id="no_question1" onclick="handleAnswer('question1', 'no')">No</button>
+    </div>
+
+    <div id="question2" class="message" data-next="question3">
+        <p>Are you sure?</p>
+        <button class="button" onclick="handleAnswer('question2', 'yes')">Yes</button>
+        <button class="button no" id="no_question2" onclick="handleAnswer('question2', 'no')">No</button>
+    </div>
+
+    <div id="question3" class="message" data-next="finalMessage">
+        <p>Just me?</p>
+        <button class="button" onclick="handleAnswer('question3', 'yes')">Yes</button>
+        <button class="button no" id="no_question3" onclick="handleAnswer('question3', 'no')">No</button>
+    </div>
+
+    <div id="finalMessage" class="message">
+        <p>I like you too!</p>
+    </div>
+</body>
+</html>
